@@ -1,0 +1,23 @@
+# Vlans
+
+vlan 10
+   name Sales
+vlan 30
+   name Finance
+
+# Access Ports
+
+interface f0/1, f0/2
+   switchport mode access
+   switchport access vlan 10
+
+interface f0/3, f0/4
+   switchport mode access
+   switchport access vlan 30
+
+# Trunk to SW2
+
+interface g0/1
+   switchport mode trunk
+   switchport trunk allowed 10,30
+   switchport trunk native 1001
