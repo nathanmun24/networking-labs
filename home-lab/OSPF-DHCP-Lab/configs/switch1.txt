@@ -1,0 +1,41 @@
+Switch 1
+	vlan 10
+	name IT
+
+	vlan 20
+	name Sales
+	
+	interface f0/3
+	switchport trunk encapsulation dot1q
+	switchport mode trunk
+	switchport mode trunk allowed vlan 10,20,30
+	switchport trunk native vlan 1001
+
+	interface vlan 10
+	ip address 192.168.0.254 255.255.255.0
+	no shutdown
+
+	interface vlan 20
+	ip address 192.168.1.254 255.255.255.0
+	no shutdown
+
+	interface f0/1
+	no switchport
+	ip address 10.0.0.6 255.255.255.252
+	no shutdown
+
+	router ospf 1
+	network 192.168.0.0 0.0.0.255 area 0
+	network 192.168.1.0 0.0.0.255 area 0
+	network 10.0.0.4 0.0.0.3 area 0
+	passive-interface f0/3
+
+	ip dhcp pool VLAN10
+	network 192.168.0.0 255.255.255.0
+	default-router 192.168.0.254
+	dns-server 8.8.8.8
+
+	ip dhcp pool VLAN20
+	network 192.168.1.0 255.255.255.0
+	default-router 192.168.1.254
+	dns-server 8.8.8.8
